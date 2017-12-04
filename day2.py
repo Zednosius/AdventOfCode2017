@@ -1,4 +1,4 @@
-from get_data import get_data_from_file
+from get_data import get_data
 
 def get_min_and_max(numbers):
     smallest = None
@@ -48,7 +48,7 @@ def compute_checksum(data, checksum_func):
 
 
 if __name__ == '__main__':
-    data = get_data_from_file("day2.txt", int)
+    data = get_data(2, int)
 
     print("Task 2.1", compute_checksum(data, largest_difference))
     print("Task 2.2", compute_checksum(data, even_division))

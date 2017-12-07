@@ -17,8 +17,12 @@ def get_neighbours(xy):
 
 def calc_cell(spiral, cell):
     s = sum(map(lambda x: get_index(spiral, x), get_neighbours(cell)))
-    print("Cell: ",cell,"=",s)
     return s
+
+def move(spiral, cell,  direction):
+    cell = tuple_sum(cell, direction)
+    spiral[cell] = calc_cell(spiral, cell)
+    return spiral, cell
 
 def create_spiral_until_cell_exceeds(num):
     cell = (0,0)
@@ -27,22 +31,18 @@ def create_spiral_until_cell_exceeds(num):
     while get_index(spiral, cell) < num:
         #Initial step to get into the next spiral level.
         n += 1
-        cell = tuple_sum(cell, (1,0))
-        spiral[cell] = calc_cell(spiral, cell)
+        spiral, cell = move(spiral, cell, (1,0))
         if (spiral[cell] > num): return (cell, spiral[cell]) #return if exceed
 
-        #Special case, must go one step less to get to top
-        for i in range(0,int(get_square_nums(n)/4 -1)):
-            cell = tuple_sum(cell, (0,1))
-            spiral[cell] = calc_cell(spiral, cell)
-            if (spiral[cell] > num): return (cell, spiral[cell]) #return if exceed
+        steps_up   = int(get_square_nums(n)/4 -1)
+        rest = int(get_square_nums(n)/4)
 
         #Spiral goes, left, down , right square_nums(n)/4 times
-        for direction in [(-1,0), (0,-1), (1,0)]:
-            for i in range(0,int(get_square_nums(n)/4)):
-                cell = tuple_sum(cell, direction)
-                spiral[cell] = calc_cell(spiral, cell)
+        for (length, direction) in [(steps_up, (0,1)) , (rest, (-1,0)), (rest, (0,-1)), (rest, (1,0))]:
+            for i in range(0, length):
+                spiral, cell = move(spiral, cell, direction)
                 if (spiral[cell] > num): return (cell, spiral[cell]) #return if exceed
+        
 
     return (cell, spiral[cell])
 
@@ -112,8 +112,9 @@ if __name__ == '__main__':
     data = 23
     print_info(6)
     print_info(31)
+    print()
     print_info(265149)
-
+    print()
 
     data = 0
 

@@ -28,18 +28,29 @@ class TowerPart:
     def total_weight(self):
         return self.weight + sum(map(lambda t:t.total_weight(), self.above))
 
-    def find_imbalance_fix(self, amt = -1):
+    def find_imbalance_fix(self, correction_amt = None):
+        "The part that needs to be changed is the one in the tree which has programs correctly balanced above."
         above_weights = map(lambda t:(t, t.total_weight()), self.above)
         d = {}
-        for (t, w) in above_weights:
-            d[w] = 1 + d.setdefault(w, 0)
+        part = {}
+        for (twr, weight) in above_weights:
+            d[weight] = 1 + d.setdefault(weight, 0)
+            part[weight] = twr
         
-        for key in d:
-            print(key)
-            if d[key] == 1:
-                wrong_weight = key
+        wrong_part = None
+        for weight in d:
+            if d[weight] == 1:
+                wrong_weight = weight
+                wrong_part = part[weight]
             else:
-                correct_weight = key
+                correct_weight = weight
+
+        if wrong_part == None:
+            return self.weight + correction_amt
+        else:
+            return wrong_part.find_imbalance_fix(correct_weight - wrong_weight) #If wrong weight too much, correction is -X , if too little +X
+
+
         return correct_weight
 
     def __str__(self):

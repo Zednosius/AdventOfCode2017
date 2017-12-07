@@ -25,7 +25,7 @@ def balance_banks(banks):
         redis_index = get_bank_index_with_most_blocks(banks)
         banks = redistribute_bank(redis_index, banks)
         cycles += 1
-        
+
     return banks, cycles
 
 
@@ -33,5 +33,8 @@ def balance_banks(banks):
 if __name__ == '__main__':
     data = get_data_as_list(6, int)
 
-    _, cycles = balance_banks(data)
+    balanced_banks, cycles = balance_banks(data)
     print("Task 1: Required {} balancing cycles.".format(cycles))
+
+    _, infinite_cycle_size = balance_banks(balanced_banks)
+    print("Task 2: Cycle size is {}".format(infinite_cycle_size))

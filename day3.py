@@ -29,16 +29,12 @@ def create_spiral_until_cell_exceeds(num):
     n = 0
     spiral = {(0,0) : 1}
     while get_index(spiral, cell) < num:
-        #Initial step to get into the next spiral level.
-        n += 1
-        spiral, cell = move(spiral, cell, (1,0))
-        if (spiral[cell] > num): return (cell, spiral[cell]) #return if exceed
-
-        steps_up   = int(get_square_nums(n)/4 -1)
+        n += 1 #Move up a level.
+        steps_up = int(get_square_nums(n)/4 -1)
         rest = int(get_square_nums(n)/4)
-
-        #Spiral goes, left, down , right square_nums(n)/4 times
-        for (length, direction) in [(steps_up, (0,1)) , (rest, (-1,0)), (rest, (0,-1)), (rest, (1,0))]:
+        
+        #Spiral goes, right once, up square_nums(n)/4 -1 times, then left, down ,right square_nums(n)/4 times
+        for (length, direction) in [(1, (1,0)), (steps_up, (0,1)) , (rest, (-1,0)), (rest, (0,-1)), (rest, (1,0))]:
             for i in range(0, length):
                 spiral, cell = move(spiral, cell, direction)
                 if (spiral[cell] > num): return (cell, spiral[cell]) #return if exceed

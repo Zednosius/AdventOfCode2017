@@ -29,7 +29,7 @@ class TowerPart:
         return self.weight + sum(map(lambda t:t.total_weight(), self.above))
 
     def find_imbalance_fix(self, correction_amt = None):
-        "The part that needs to be changed is the one in the tree which has programs correctly balanced above."
+        "The part that needs to be changed is the incorrectly weighed one in the tree which has programs correctly balanced above."
         above_weights = map(lambda t:(t, t.total_weight()), self.above)
         d = {}
         part = {}

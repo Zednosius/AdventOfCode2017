@@ -21,3 +21,6 @@ def get_data_from_file(filename, cast=str):
 
 def get_data(day_num):
     return get_data_from_file("day{}.txt".format(day_num))
+
+def get_data_as_list(day_num, cast):
+    return [e for row in get_data_from_file("day{}.txt".format(day_num), cast) for e in row]

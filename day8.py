@@ -34,10 +34,13 @@ def parse_line(line):
 if __name__ == '__main__':
     data = []
     env = defaultdict(int)
+    all_time_max = 0
     with open("input/day8.txt") as f:
         for line in f:
             v_var, v_op, v_val, c_var, c_op, c_val = parse_line(line)
             if comp_op(env, c_var, c_op, c_val):
                 mod_op(env, v_var, v_op, int(v_val))
+                all_time_max = max(all_time_max, max(env.values()))
 
     print("Largest value is:", max(env.values()))
+    print("Largest value during execution is:", all_time_max)
